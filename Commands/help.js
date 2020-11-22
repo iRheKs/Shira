@@ -4,7 +4,7 @@ module.exports =
     name: 'help',
     shortDesc: 'Command List',
     description: 'Shows up the command list',
-    aliases: ['cmd','commands', 'c'],
+    aliases: ['hlp'],
     usage: '<command name>',
     execute(message, args)
     {
@@ -17,7 +17,6 @@ module.exports =
             fields: [],
         }
         if (!args.length) {
-            //data.push('Command list\n');
             var inlineCount = 4;
             var actualInline = 1;
             commands.forEach(command => {                

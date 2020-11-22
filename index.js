@@ -96,11 +96,14 @@ function OnMessageRecived(message) {
         try {
             if(!server.started && (cmdName === 'setup' || command.aliases.includes(cmdName)))
             { 
-                //gameCh = args.join('-').toString();
                 command.execute(message, args);
             }else{
                 if(!server.started){message.channel.send(`You need to set up the bot before start to use it.\n Use ${prefix}setup <channel name> to start playing.`);}
-                else
+                else if(cmdName === 'setchannel' || command.aliases.includes(cmdName)){
+                    var channelChanged = command.execute(message, args);
+                    if(channelChanged)
+                        server.channelID = args[0];
+                }else
                     command.execute(message, args);
             }
         } catch (error) {
