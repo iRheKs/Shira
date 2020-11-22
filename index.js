@@ -97,14 +97,20 @@ function OnMessageRecived(message) {
             if(!server.started && (cmdName === 'setup' || command.aliases.includes(cmdName)))
             { 
                 command.execute(message, args);
-            }else{
-                if(!server.started){message.channel.send(`You need to set up the bot before start to use it.\n Use ${prefix}setup <channel name> to start playing.`);}
+            }
+            else if (command.name != 'setup')
+            {
+                if(!server.started){message.channel.send(`You need to set up the bot before start to use it.\n Use ${prefix}setup <channel name> to start playing.`).then().catch();}
                 else if(cmdName === 'setchannel' || command.aliases.includes(cmdName)){
                     var channelChanged = command.execute(message, args);
                     if(channelChanged)
                         server.channelID = args[0];
                 }else
                     command.execute(message, args);
+            }else
+            {
+                message.delete();
+                message.reply(`Set up is already done you can use ${prefix}setchannel <channel id> to change the channel where the bot will work on.`).then(msg => {msg.delete({timeout: 10000})}).catch();
             }
         } catch (error) {
             console.error(error);

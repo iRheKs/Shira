@@ -12,7 +12,7 @@ module.exports =
     execute(message, args)
     {
         if (args.length > 0){
-            message.delete();
+            message.delete({timeout: 5000});
             var channel = message.guild.channels.cache.get(args[0]);
             if(channel){
                 JSONreader.jsonReader('./servers.json', (err, servers) => {
@@ -28,9 +28,9 @@ module.exports =
                         })
                     }
                 })
-                message.reply('Bot channel changed to channel with ID: ' + args[0]).then(msg => {msg.delete({ timeout: 5000 });}).catch();
+                message.reply('Bot channel changed to channel with ID: ' + channel.nombre).then(msg => {msg.delete({ timeout: 5000 });}).catch();
             }else{
-                message.reply('Channel could not be found with that ID');
+                message.reply('Channel could not be found with that ID').then(msg => {msg.delete({ timeout: 5000 });}).catch();
                 return false;
             }
             return true;

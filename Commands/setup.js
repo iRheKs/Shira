@@ -9,7 +9,7 @@ module.exports =
     execute(message, args)
     {
         if (args.length > 0){
-            message.delete();
+            message.delete({timeout: 5000});
             return message.guild.channels.create(args.join('-'), "text",{ reason: 'Channel for the Bot' });
         }
     }
