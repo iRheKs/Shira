@@ -1,0 +1,16 @@
+module.exports = 
+{
+    name: 'setup',
+    shortDesc: 'Sets up the bot',
+    description: 'Create Channel for the Bot and sets it as main channel only',
+    aliases: ['su','setchannel'],
+    args: true,
+    usage: '<channel name>',
+    execute(message, args)
+    {
+        if (args.length > 0){
+            message.delete();
+            return message.guild.channels.create(args.join('-'), "text",{ reason: 'Channel for the Bot' });
+        }
+    }
+}
