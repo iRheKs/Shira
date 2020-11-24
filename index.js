@@ -81,32 +81,32 @@ function OnMessageRecived(message) {
         if(!server) return;//TODO: server not encountered error
         //we get the arguments of the command
         const args = content.slice(prefix.length).trim().split(/ +/);
-        const cmdName = args.shift().toLowerCase();
+        const userCmdName = args.shift().toLowerCase();
         
         if(message.channel.id != server.channelID && server.started) {message.react('🚫'); return;}
-        const command = bot.commands.get(cmdName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(cmdName));
+        const command = bot.commands.get(userCmdName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(userCmdName));
         if (!command) return;
         if (command.args && !args.length) {
             let reply = `You didn't provide any arguments, ${message.author}!`;
             if (command.usage) {
-            	reply += `\nThe proper usage would be: \`${prefix}${cmdName} ${command.usage}\``;
+            	reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
             }
             return message.channel.send(reply);
     	}
         try {
-            if(!server.started && (cmdName === 'setup' || command.aliases.includes(cmdName)))
+            if(!server.started && command.name === 'setup')
             { 
                 command.execute(message, args);
             }
             else if (command.name != 'setup')
             {
                 if(!server.started){message.channel.send(`You need to set up the bot before start to use it.\n Use ${prefix}setup <channel name> to start playing.`).then().catch();}
-                else if(cmdName === 'setchannel' || command.aliases.includes(cmdName)){
+                else if(command.name === 'setchannel'){
                     var channelChanged = command.execute(message, args);
                     if(channelChanged)
                         server.channelID = args[0];
                 }else
-                    command.execute(message, args);
+                    command.execute(message, args, userCmdName);
             }else
             {
                 message.delete();

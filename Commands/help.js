@@ -20,7 +20,7 @@ module.exports =
             var inlineCount = 4;
             var actualInline = 1;
             commands.forEach(command => {                
-                data.push({name: command.name, value: command.shortDesc, inline: (actualInline%inlineCount) != 0});
+                data.push({name: command.name, value: command.shortDesc, inline: true});
                 actualInline++;
             });
             data.push({name: '\u200b', value: `\nYou can use ${prefix}help ${this.usage} to get info on a specific command`, inline : false});
