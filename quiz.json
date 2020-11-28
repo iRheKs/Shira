@@ -1,0 +1,22 @@
+[
+    {
+        "question": "How old is Shiro?",
+        "wrongAnswers": ["13","11","12","18","16","14","Thirteen","Twelve","Eleven", "Eighteen", "Sixteen", "Fourteen"],
+        "answers": ["11.5", "Eleven and a half", "Eleven point Five", "Eleven-and-a-half", "Eleven-point-five"]
+    },
+    {
+        "question": "How many letters are there in the alphabet?",
+        "wrongAnswers": ["25","27","28","30","Twenty-Five","Twenty-Seven","Twenty-Eight","Twenty Seven","Twenty Five","Twenty Eight","Thirty"],
+        "answers": ["26", "Twenty-Six", "Twenty Six"]
+    },
+    {
+        "question": "Which race Shiro belongs to?",
+        "wrongAnswers": ["Elf","Werebeast", "Fairy", "Old Deus", "Flügel", "Phantasma", "Elemental", "Dragonia", "Dwarf", "Ex-Machina", "Dhampir", "Seiren", "Lunamana", "Gigant", "Demonia"],
+        "answers": ["Imanity", "Humanity"]
+    },
+    {
+        "question": "Which piece is Shiro's race?",
+        "wrongAnswers": ["Queen","Pawn", "Bishop", "Knight", "Rook"],
+        "answers": ["King"]
+    }
+]
