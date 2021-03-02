@@ -1,0 +1,23 @@
+[{
+  "_id": {
+    "$oid": "5fcec1fe251974753071e816"
+  },
+  "tag": "iRheKs(Paco)",
+  "discordID": "268757271100653568",
+  "wishList": [
+    "Ochako",
+    "Akame"
+  ],
+  "dateList": [
+    {
+      "name": "Shiro",
+      "level": 20,
+      "totalExperience": 2000,
+      "rarityLevel": 3,
+      "rarity": "Super Rare",
+      "claimedCards": 31,
+      "color": "#000000",
+      "dateNumber": 5
+    }
+  ]
+}]

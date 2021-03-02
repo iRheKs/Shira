@@ -1,0 +1,67 @@
+[{
+  "_id": {
+    "$oid": "5fceb947251974753071e814"
+  },
+  "name": "Shiro",
+  "amity": 25,
+  "amityRatio": 0.005,
+  "battle": 100,
+  "battleRatio": 0.02,
+  "date": 50,
+  "dateRatio": 0.01,
+  "energy": 100,
+  "images": [
+    "https://imgur.com/kDMYbW1.gif",
+    "https://i.imgur.com/q8G8bVQ.jpeg"
+  ],
+  "questions": [
+    {
+      "text": "How old is Shiro?",
+      "answer": "11.5",
+      "wrongAnswers": "11,12,13,12.5",
+      "difficulty": "E"
+    },
+    {
+      "text": "Wich race is Shiro?",
+      "answer": "Imanity",
+      "wrongAnswers": "Elf,Werebeast,Fairy,Old Deus,Flügel,Phantasma,Elemental,Dragonia,Dwarf,Ex-Machina,Dhampir,Seiren,Lunamana,Gigant,Demonia",
+      "difficulty": "E"
+    }
+  ],
+  "rarityRatio": 0.5,
+  "aliases": "One-chan,The Pro Player",
+  "series": "No Game No Life"
+},{
+  "_id": {
+    "$oid": "5feb156544012a37101261d5"
+  },
+  "name": "Shiro",
+  "amity": 25,
+  "amityRatio": 0.005,
+  "battle": 100,
+  "battleRatio": 0.02,
+  "date": 50,
+  "dateRatio": 0.01,
+  "energy": 100,
+  "images": [
+    "https://imgur.com/kDMYbW1.gif",
+    "https://i.imgur.com/q8G8bVQ.jpeg"
+  ],
+  "questions": [
+    {
+      "text": "How old is Shiro?",
+      "answer": "11.5",
+      "wrongAnswers": "11,12,13,12.5",
+      "difficulty": "E"
+    },
+    {
+      "text": "Wich race is Shiro?",
+      "answer": "Imanity",
+      "wrongAnswers": "Elf,Werebeast,Fairy,Old Deus,Flügel,Phantasma,Elemental,Dragonia,Dwarf,Ex-Machina,Dhampir,Seiren,Lunamana,Gigant,Demonia",
+      "difficulty": "E"
+    }
+  ],
+  "rarityRatio": 0.5,
+  "aliases": "One-chan,The Pro Player",
+  "series": "No Game No Life"
+}]
