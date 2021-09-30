@@ -37,6 +37,7 @@ module.exports =
         data.push({name: command.name, value: '\u200b', inline: false});
 
         if (command.aliases) data.push({name: 'Aliases', value: command.aliases.join(', '), inline: true});
+        if (command.filters)  data.push({name: 'Filters', value: command.filters.join(', '), inline: true});
         if (command.description) data.push({name: 'Description', value: command.description, inline: true});
         if (command.usage) data.push({name: 'Usage', value: prefix + command.name + ' ' + command.usage, inline: true});
         if (command.cooldown) data.push({name: 'Cooldown time (seconds)', value: command.cooldown, inline: true});

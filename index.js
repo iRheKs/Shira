@@ -84,7 +84,8 @@ function OnMessageRecived(message) {
         const userCmdName = args.shift().toLowerCase();
         
         if(message.channel.id != server.channelID && server.started) {message.react('🚫'); return;}
-        const command = bot.commands.get(userCmdName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(userCmdName));
+        
+        const command = bot.commands.get(userCmdName) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(userCmdName)) || CheckFilteredCommand(userCmdName);
         if (!command) return;
         if (command.args && !args.length) {
             let reply = `You didn't provide any arguments, ${message.author}!`;
@@ -137,6 +138,29 @@ function OnChannelCreated(channel){
             })
         }
     })
+}
+
+// This methods checks if theres a coincidence of any combination between filters and aliases of a command
+// if any command is found it will get returned
+// otherwise if no combination is found undefinded will be returned
+// it will also check any kind of combination
+// if there's some combination that shouldn't be suitable, the command itself should warn about it
+function CheckFilteredCommand(cmd){
+    var cmdName = cmd[0];
+    var cmdExtraName = cmd.substring(1);
+    var isCorrectFilterCommand;
+    // if comand has filters check if is a correct filter else it will return the undefined var isCorrectFilterCommand
+    if(cmdExtraName.length > 0){
+        var filters = cmdExtraName.split("");
+        var i = 0;
+        do{
+            // check for combinations at least once
+            isCorrectFilter = bot.commands.find(cmd => cmd.filters && cmd.filters.includes(filters[i]) && cmd.aliases && cmd.aliases.includes(cmdName));
+            i++;
+        }while(isCorrectFilter && i < cmdExtraName.length)    
+    }
+    //always return isCorrectFilterCommand
+    return isCorrectFilterCommand;
 }
 
 
