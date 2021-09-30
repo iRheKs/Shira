@@ -4,6 +4,7 @@ const config = require("./config.json");
 const JSONreader = require('./Utils/JSONreader.js');
 
 //global variables
+var commandFiltered = false;
 var gameCh = 'general'; //game channel
 const prefix = config.prefix; //command prefix
 var serverList = new Array();
@@ -75,6 +76,7 @@ function OnBotIsReady(evt){
 function OnMessageRecived(message) {
     // Bot will listen to commands starting with prefix '+'
     const content = message.content; //save de content in a variable for legible purposes
+    commandFiltered = false;
     if (!content.startsWith(prefix) || message.author.bot) return;
     if (content.startsWith(prefix)) {
         var server = serverList.find(name=>name.name == message.guild.id);
@@ -107,7 +109,7 @@ function OnMessageRecived(message) {
                     if(channelChanged)
                         server.channelID = args[0];
                 }else
-                    command.execute(message, args, userCmdName);
+                    command.execute(message, args, userCmdName, commandFiltered);
             }else
             {
                 message.delete();
@@ -147,17 +149,21 @@ function OnChannelCreated(channel){
 // if there's some combination that shouldn't be suitable, the command itself should warn about it
 function CheckFilteredCommand(cmd){
     var cmdName = cmd[0];
-    var cmdExtraName = cmd.substring(1);
+    var cmdFilters = cmd.substring(1);
     var isCorrectFilterCommand;
     // if comand has filters check if is a correct filter else it will return the undefined var isCorrectFilterCommand
-    if(cmdExtraName.length > 0){
-        var filters = cmdExtraName.split("");
+    if(cmdFilters.length > 0){
+        var filters = cmdFilters.split("");
         var i = 0;
         do{
             // check for combinations at least once
-            isCorrectFilter = bot.commands.find(cmd => cmd.filters && cmd.filters.includes(filters[i]) && cmd.aliases && cmd.aliases.includes(cmdName));
+            isCorrectFilterCommand = bot.commands.find(cmd => cmd.filters && cmd.filters.includes(filters[i]) && cmd.aliases && cmd.aliases.includes(cmdName));
+            if(isCorrectFilterCommand)
+                commandFiltered = true;
+            else
+                commandFiltered = false;
             i++;
-        }while(isCorrectFilter && i < cmdExtraName.length)    
+        }while(isCorrectFilterCommand && i < cmdFilters.length)    
     }
     //always return isCorrectFilterCommand
     return isCorrectFilterCommand;

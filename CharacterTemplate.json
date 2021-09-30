@@ -30,7 +30,14 @@
   ],
   "rarityRatio": 0.5,
   "aliases": "One-chan,The Pro Player",
-  "series": "No Game No Life"
+  "series": "No Game No Life",
+  "categoryName": "anime",
+  "rollFilters":
+  {
+    "0":"r",
+    "1":"w",
+    "2":"a"
+  }
 },{
   "_id": {
     "$oid": "5feb156544012a37101261d5"
@@ -63,5 +70,12 @@
   ],
   "rarityRatio": 0.5,
   "aliases": "One-chan,The Pro Player",
-  "series": "No Game No Life"
+  "series": "No Game No Life",
+  "categoryName": "games",
+  "rollFilters":
+  {
+    "0":"r",
+    "1":"w",
+    "2":"g"
+  }
 }]

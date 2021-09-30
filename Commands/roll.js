@@ -1,7 +1,7 @@
 const { prefix, URI } = require('../config.json');
 const mongoose = require('mongoose');
-var schemaPlayer = new mongoose.Schema({tag: String, discordID: String, totalRolls: Number, currentRolls: Number, dateList: Array, wishList: Array}, {collection: 'Players', versionKey: false}) ;
-var schemaCharacter = new mongoose.Schema({name: String, images: Array, series: String, gender: String, type: String, }, {collection: 'Characters', versionKey: false}) ;
+const { PlayerSchema, CharacterSchema } = require("../Utils/DBModels")
+
 module.exports = 
 {
     name: 'roll',
@@ -10,15 +10,15 @@ module.exports =
     aliases: ['rolls','r','random','w','women','m','men'],
     filters: ['a','g','c'],
     usage: ` or ${prefix}<alias>`,
-    execute(message, args, cmdAlias)
+    execute(message, args, cmdAlias, cmdFiltered)
     {
         var embedID = '';
         var userClaimTag = "";
         //create db connection
         const dbConnection = mongoose.createConnection(URI, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
         //create db models
-        const  dbModelPlayer = dbConnection.model('Player', schemaPlayer);
-        const  dbModelCharacter = dbConnection.model('Characters', schemaCharacter);
+        const  dbModelPlayer = dbConnection.model('Player', PlayerSchema);
+        const  dbModelCharacter = dbConnection.model('Characters', CharacterSchema);
         //if connection fails
         dbConnection.on('error', console.error.bind(console, 'connection error:'));
         //on opened connection
@@ -59,14 +59,14 @@ module.exports =
                 if(cmdAlias.length == 2){
                     categoryFilter = cmdAlias[1];
                 }
-                else{
+                else if (cmdFiltered){
                     message.channel.send(`Only one filter with short aliases is allowed on roll comand`);
                     return;
                 }
 
                 //roll filter will have always the filter of cmdChar and categoryFilter will add a category filter
                 //if no category filter added, default value will act as an regular expression evaluated with $regex mongoDB filter
-                const rollFilter = {$and: [{rollFilters: {$elemMatch: { $eq: cmdChar}}}, {rollFilters: {$elemMatch: { $regex: categoryFilter}}}]};
+                const rollFilter = {$and: [{rollCategoryFilters: {$elemMatch: { $eq: cmdChar}}}, {rollCategoryFilters: {$elemMatch: { $regex: categoryFilter}}}]};
 
                 dbModelCharacter.countDocuments(rollFilter, function (err, count){
                     if(err) throw err;
