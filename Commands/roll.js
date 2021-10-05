@@ -44,6 +44,7 @@ module.exports =
                 }
                 
                 console.log('player: ' + player.tag + '\n' + 'player total rolls: ' + player.totalRolls + '\n' + 'player current rolls: ' + player.currentRolls);
+                //TODO: check if rolls are resetted with date time, maybe an external command is needed
                 //check current rolls is 1+
                 if(player.currentRolls > 0)
                     canRoll = true; //roll method
@@ -97,17 +98,17 @@ module.exports =
                             embed.react('⭐');// only react with ⭐ if someone has already the character
                         
                         // await for Claim reaction recursively
-                        AwaitClaimReaction(embed, embedID);
+                        AwaitClaimReaction(embed, embedID, character);
                         
                         // await for Taken reaction recursively
-                        AwaitTakenReaction(embed, embedID);
+                        AwaitTakenReaction(embed, embedID, character);
                         
                     }).catch(err => {if (err) console.log(err); return;});
                 }).catch(err => {if (err) console.log(err); return;});
             });
         }
 
-        function AwaitClaimReaction(embed, embedID){
+        function AwaitClaimReaction(embed, embedID, character){
     
             // Filter for the claim reaction, just check that user is not the bot
             const claimFilter = (reaction, user) => {
@@ -145,15 +146,15 @@ module.exports =
                     }
                     else{
                         message.channel.send(`**${user.username}**, you already have **${character.name}**.`);
-                        AwaitClaimReaction(embed, embedID);
+                        AwaitClaimReaction(embed, embedID, character);
                     }
                 });
                 console.log(user.tag + ' Claim');
                 return;
             }).catch(err => {if (err) console.log(err); return;});
         }
-
-        function AwaitTakenReaction(embed, embedID){
+        
+        function AwaitTakenReaction(embed, embedID, character){
             // Filter for the taken reaction, check that user is not the bot and only the user that had it before the roll can take a new card of the character
             const reclaimFilter = (reaction, user) => {
                 return reaction.emoji.name === '⭐' && !user.bot && user.tag != userClaimTag;
@@ -169,10 +170,21 @@ module.exports =
                             embedMessage.edit({embed: {title: character.name, description: character.series, image: {"url" : character.images[0]}, footer: footer}});
                             message.channel.send(`**${user.username}**, you got a new card of **${character.name}**`);
                         }).catch(err => {if (err) console.log(err); return;});
+
+                        //TODO: mantener en observacion hasta que se confirme que funciona como se espera
+                        dbModelPlayer.findOne({$and: [{discordID : user.id}, {dateList: {$elemMatch: {name: character.name}}}]}, function(err, player){
+                            if(err) throw err;
+                            var newCardNumber = player.dateList.find(date => date.name == character.name).claimedCards + 1;
+                            console.log("Number of cards: " + newCardNumber + " from player: " + player.tag + " of character: " + player.dateList.find(date => date.name == character.name).name);
+                            dbModelPlayer.updateOne({$and: [{_id : player._id}, {'dateList.name': character.name}]}, {'dateList.$.claimedCards': newCardNumber}, {upsert: true}, function(err, data){
+                                if(err) throw err;
+                            });
+                        });
+                        return;
                     }
                     else{
                         message.channel.send(`**${user.username}**, you don't have **${character.name}** yet. Claim it first.`);
-                        AwaitTakenReaction(embed, embedID);
+                        AwaitTakenReaction(embed, embedID, character);
                     }
                 });
                 console.log(user.tag + ' Taken');
