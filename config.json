@@ -1,5 +1,0 @@
-{
-    "prefix": "+",
-    "token": "your.bot.token",
-    "URI": "mongodb+srv://<username>:<password>@shiradb.6ozzp.mongodb.net/ShiraTest?retryWrites=true&w=majority"
-}
